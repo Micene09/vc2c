@@ -20,6 +20,7 @@ import { removeThisAndSort } from './removeThisAndSort'
 import { convertRender } from './vue-class-component/Render'
 import { convertInject } from './vue-property-decorator/Inject'
 import { convertProvide } from './vue-property-decorator/Provide'
+import { convertMixins } from './vue-class-component/object/Mixins'
 
 export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
   return {
@@ -37,7 +38,7 @@ export function getDefaultPlugins (tsModule: typeof ts): ASTConvertPlugins {
       convertName
     ],
     [tsModule.SyntaxKind.HeritageClause]: [
-      // TODO: extends Minix
+      convertMixins
     ],
     [tsModule.SyntaxKind.PropertyDeclaration]: [
       convertModel,

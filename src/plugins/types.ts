@@ -8,6 +8,7 @@ export enum ASTResultKind {
 
 export enum ReferenceKind {
   PROPS,
+  MIXINS,
   VARIABLE_VALUE,
   VARIABLE_NON_NULL_VALUE,
   VARIABLE,
