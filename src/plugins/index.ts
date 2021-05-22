@@ -1,7 +1,7 @@
 import type ts from 'typescript'
 import { Vc2cOptions } from '../options'
 import { ASTConvertPlugins, ASTResult, ASTConverter, ASTResultKind } from './types'
-import { copySyntheticComments, addTodoComment, convertNodeToASTResult } from '../utils'
+import { copySyntheticComments, addTodoComment, convertNodeToASTResult, IImportClause, importsFind, importsAdd, importsIncludes, importsMapToArray } from '../utils'
 import { log } from '../debug'
 import { convertObjName } from './vue-class-component/object/ComponentName'
 import { convertObjProps } from './vue-class-component/object/Prop'
@@ -193,32 +193,30 @@ export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], opt
 }
 
 export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], options: Vc2cOptions): ts.ImportDeclaration[] {
-  interface Clause { named: Set<string>, default?: string }
 
   const tsModule = options.typescript
-  const importMap = new Map<string, Clause>()
   for (const result of astResults) {
     for (const importInfo of result.imports) {
       const key: string = ('external' in importInfo) ? importInfo.external : importInfo.path
-      const temp: Clause = importMap.get(key) ?? { named: new Set() }
+      const temp: IImportClause = importsFind(key) ?? { named: new Set() }
       if ((!('default' in temp)) && 'default' in importInfo) {
         temp.default = importInfo.default
       }
       for (const named of importInfo.named || []) {
         temp.named.add(named)
       }
-      importMap.set(key, temp)
+      importsAdd(key, temp)
     }
   }
 
-  if (options.compatible && importMap.has('@vue/composition-api')) {
+  if (options.compatible && importsIncludes('@vue/composition-api')) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const temp = importMap.get('@vue/composition-api')!
+    const temp = importsFind('@vue/composition-api')!
     temp.named.add('defineComponent')
-    importMap.set('@vue/composition-api', temp)
+    importsAdd('@vue/composition-api', temp)
   }
 
-  return Array.from(importMap).map((el) => {
+  return importsMapToArray().map((el) => {
     const [key, clause] = el
     return tsModule.createImportDeclaration(
       undefined,

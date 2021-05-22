@@ -132,3 +132,21 @@ export function createIdentifier (tsModule: typeof ts, text: string): ts.Identif
   temp.getText = () => text
   return temp
 }
+
+export interface IImportClause { named: Set<string>, default?: string }
+const importMap = new Map<string, IImportClause>()
+export function importsAdd(mod: string, clause: IImportClause) {
+  importMap.set(mod, clause)
+}
+export function importsClear() {
+  importMap.clear()
+}
+export function importsFind(mod: string) {
+  return importMap.get(mod)
+}
+export function importsIncludes(mod: string) {
+  return importMap.has(mod)
+}
+export function importsMapToArray() {
+  return Array.from(importMap)
+}

@@ -6,8 +6,10 @@ import path from 'path'
 import { readVueSFCOrTsFile, existsFileSync, FileInfo } from './file'
 import { setDebugMode } from './debug'
 import * as BuiltInPlugins from './plugins/builtIn'
+import { importsClear } from './utils'
 
 export function convert (content: string, inputOptions: InputVc2cOptions): string {
+  importsClear()
   const options = mergeVc2cOptions(getDefaultVc2cOptions(inputOptions.typescript), inputOptions)
   const { ast, program } = getSingleFileProgram(content, options)
 
