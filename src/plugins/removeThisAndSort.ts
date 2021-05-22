@@ -1,6 +1,6 @@
 import { ASTTransform, ASTResult, ReferenceKind, ASTResultKind } from './types'
 import type ts from 'typescript'
-import { addTodoComment } from '../utils'
+import { addTodoComment, copySyntheticComments, importsAdd } from '../utils'
 
 export const removeThisAndSort: ASTTransform = (astResults, options) => {
   const tsModule = options.typescript
@@ -13,6 +13,7 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
   const domeRefVariables = getReferences(ReferenceKind.VARIABLE_NON_NULL_VALUE)
   const propVariables = getReferences(ReferenceKind.PROPS)
   const variables = getReferences(ReferenceKind.VARIABLE)
+  const vueRouterProperties = ["$router", "$route"]
 
   const convertContextKey = (key: string) => {
     const contextKey = new Map([
@@ -58,6 +59,20 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
             } else if (variables.includes(propertyName)) {
               dependents.push(propertyName)
               return tsModule.createIdentifier(propertyName)
+            } else if (vueRouterProperties.includes(propertyName)) {
+              const vueRouterMethod = propertyName === "$router" ? "useRouter" : "useRoute"
+              importsAdd("vue-router", {
+                named: new Set([vueRouterMethod])
+              })
+              return copySyntheticComments(
+                tsModule,
+                tsModule.createCall(
+                  tsModule.createIdentifier(vueRouterMethod),
+                  undefined,
+                  []
+                ),
+                node
+              )
             } else {
               const convertKey = convertContextKey(propertyName)
               if (convertKey) {
