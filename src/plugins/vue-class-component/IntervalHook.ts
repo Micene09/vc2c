@@ -18,10 +18,10 @@ export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, op
         tsModule.createIdentifier(needNamedImports[0]),
         undefined,
         [tsModule.createArrowFunction(
-          undefined,
+          node.modifiers,
           undefined,
           [],
-          undefined,
+          node.type,
           tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
           node.body ?? tsModule.createBlock([])
         )]
