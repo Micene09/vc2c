@@ -136,7 +136,17 @@ export function createIdentifier (tsModule: typeof ts, text: string): ts.Identif
 export interface IImportClause { named: Set<string>, default?: string }
 const importMap = new Map<string, IImportClause>()
 export function importsAdd(mod: string, clause: IImportClause) {
-  importMap.set(mod, clause)
+  if (importMap.has(mod)) {
+    const importClause = importMap.get(mod)!
+    if (clause.default && importClause.default) return;
+    if (clause.named && !importClause.named)
+      importClause.named = clause.named
+    if (clause.named && importClause.named)
+      importClause.named = new Set([...clause.named, ...importClause.named])
+
+    importMap.set(mod, importClause)
+  }
+  else importMap.set(mod, clause)
 }
 export function importsClear() {
   importMap.clear()
