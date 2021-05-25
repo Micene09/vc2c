@@ -40,7 +40,7 @@ The files to be converted must meet the criterias below:
     - [x] intervalHook (ex: `mounted`)
     - [x] `render`
     - [x] `methods`
-    - [ ] `Mixins`
+    - [x] `Mixins`
 - vue-property-decorator
   - [x] `@Prop`
   - [ ] `@PropSync`
