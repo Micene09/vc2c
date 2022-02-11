@@ -7,6 +7,8 @@ import { readVueSFCOrTsFile, existsFileSync, FileInfo } from './file'
 import { setDebugMode } from './debug'
 import * as BuiltInPlugins from './plugins/builtIn'
 import { importsClear } from './utils'
+import fg from "fast-glob"
+import fs from "fs"
 
 export function convert (content: string, inputOptions: InputVc2cOptions): string {
   importsClear()
@@ -42,6 +44,22 @@ export function convertFile (filePath: string, root: string, config: string): { 
     file,
     result: convert(file.content, options)
   }
+}
+
+interface IGlobConvertOptions extends InputVc2cOptions {
+  globSelector: string | string[]
+}
+export function convertGlob (options: IGlobConvertOptions) {
+  const files = fg.sync(options.globSelector)
+  console.log(files)
+  files.map(filePath => {
+    const encoding = "utf-8"
+    const content = fs.readFileSync(filePath, { encoding })
+    const result = convert(content, options)
+    fs.writeFileSync(filePath, result, { encoding })
+
+    return { filePath, result: Boolean(result) }
+  })
 }
 
 export * from './plugins/types'
