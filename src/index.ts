@@ -52,13 +52,13 @@ interface IGlobConvertOptions extends InputVc2cOptions {
 export function convertGlob (options: IGlobConvertOptions) {
   const files = fg.sync(options.globSelector)
   console.log(files)
-  files.map(filePath => {
+  return files.map(filePath => {
     const encoding = "utf-8"
     const content = fs.readFileSync(filePath, { encoding })
     const result = convert(content, options)
     fs.writeFileSync(filePath, result, { encoding })
 
-    return { filePath, result: Boolean(result) }
+    return { filePath, result, success: Boolean(result) }
   })
 }
 

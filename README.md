@@ -82,7 +82,7 @@ vc2c single [cliOptions] <VueOrTSfilePath>
 
 ### API
 ```javascript
-const { convert, convertFile } = require('vc2c')
+const { convert, convertFile, convertGlob } = require('vc2c')
 
 // Get convert result script
 const resultScript = convert(
@@ -96,9 +96,20 @@ const { file, result } = convertFile(
   /* rootPath */ cmdOptions.root,
   /* Vc2cConfigFilePath */ cmdOptions.config
 )
+
+// Like convert, but it convert every file found on a globSelector
+const results = convertGlob(options);
+// results: {
+//     filePath: string;
+//     result: string;
+//     success: boolean;
+// }[]
+// options: interface IGlobConvertOptions extends InputVc2cOptions {
+//  globSelector: string | string[]
+// }
 ```
 
-### Vc2c Config
+### Vc2c Config (`InputVc2cOptions`)
 ```typescript
 {
   // root path for calc file absolute path, if in CLI, --root value will replace. default:`process.cwd()`
