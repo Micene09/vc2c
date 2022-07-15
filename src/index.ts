@@ -7,8 +7,6 @@ import { readVueSFCOrTsFile, existsFileSync, FileInfo } from './file'
 import { setDebugMode } from './debug'
 import * as BuiltInPlugins from './plugins/builtIn'
 import { importsClear } from './utils'
-import fg from "fast-glob"
-import fs from "fs"
 
 export function convert (content: string, inputOptions: InputVc2cOptions): string {
   importsClear()
@@ -50,19 +48,24 @@ interface IGlobConvertOptions extends InputVc2cOptions {
   globSelector: string | string[]
 }
 export function convertGlob (options: IGlobConvertOptions) {
-  const files = fg.sync(options.globSelector)
-  console.log(files)
-  return files.map(filePath => {
-    const encoding = "utf-8"
-    const content = fs.readFileSync(filePath, { encoding })
-    const result = convert(content, options)
-    fs.writeFileSync(filePath, result, { encoding })
-
-    return { filePath, result, success: Boolean(result) }
-  })
+  import("fast-glob").then((fg) => {
+    import("fs").then((fs) => {
+      const files = fg.sync(options.globSelector)
+      console.log(files)
+      return files.map(filePath => {
+        const encoding = "utf-8"
+        const content = fs.readFileSync(filePath, { encoding })
+        const result = convert(content, options)
+        fs.writeFileSync(filePath, result, { encoding })
+    
+        return { filePath, result, success: Boolean(result) }
+      })
+    });
+  });
 }
 
 export * from './plugins/types'
 export { BuiltInPlugins }
 export * from './utils'
-export { getDefaultVc2cOptions, Vc2cOptions } from './options'
+export { getDefaultVc2cOptions } from './options'
+export type { Vc2cOptions } from './options'

@@ -2,6 +2,10 @@
   "name": "vc2c",
   "version": "2.0.1",
   "author": "<yoyo930021>yoyo930021@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoyo930021/vc2c.git"
+  },
   "license": "MIT",
   "main": "dist/lib/index.js",
   "typings": "dist/types/index.d.ts",
@@ -17,6 +21,22 @@
     "README.md",
     "LICENSE"
   ],
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "build": "tsc -p tsconfig.compile.json",
+    "test": "yarn build && jest --config jest.config.js",
+    "demo": "vite"
+  },
+  "dependencies": {
+    "commander": "^4.0.1",
+    "core-js": "^3.6.5",
+    "eslint": "^7.6.0",
+    "fast-glob": "^3.2.11",
+    "inquirer": "^7.3.3",
+    "prettier-eslint": "^11.0.0",
+    "ts-node": "^8.10.2",
+    "vue-template-compiler": "^2.6.11"
+  },
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
     "@types/inquirer": "^7.3.0",
@@ -33,32 +53,13 @@
     "eslint-plugin-standard": "^4.0.1",
     "jest": "^26.2.2",
     "monaco-editor": "^0.20.0",
-    "parcel-bundler": "^1.12.4",
+    "path-browserify": "^1.0.1",
     "prettier": "^2.0.5",
     "semantic-release": "^17.2.3",
     "ts-jest": "^26.1.4",
     "typescript": "3.9.7",
+    "vite": "^3.0.0",
+    "vite-tsconfig-paths": "^3.5.0",
     "vue": "^2.6.11"
-  },
-  "scripts": {
-    "lint": "eslint . --ext .ts",
-    "build": "tsc -p tsconfig.compile.json",
-    "test": "yarn build && jest --config jest.config.js",
-    "demo:prepare": "parcel build node_modules/monaco-editor/esm/vs/editor/editor.worker.js --no-source-maps -d demo-dist/ && parcel build node_modules/monaco-editor/esm/vs/language/typescript/ts.worker.js --no-source-maps -d demo-dist/",
-    "demo:build": "yarn demo:prepare && parcel build demo/index.html --no-source-maps -d demo-dist/ --public-url ./"
-  },
-  "dependencies": {
-    "commander": "^4.0.1",
-    "core-js": "^3.6.5",
-    "eslint": "^7.6.0",
-    "fast-glob": "^3.2.11",
-    "inquirer": "^7.3.3",
-    "prettier-eslint": "^11.0.0",
-    "ts-node": "^8.10.2",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yoyo930021/vc2c.git"
   }
 }
