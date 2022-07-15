@@ -11,6 +11,7 @@ export interface Vc2cOptions {
   setupContextKey: string
   typescript: typeof ts
   vueTemplateCompiler: typeof vueTemplateCompiler
+  skipVueRouter: boolean
   eslintConfigFile: string
   plugins: ASTConvertPlugins
 }
@@ -25,6 +26,7 @@ export function getDefaultVc2cOptions (tsModule: typeof ts = ts): Vc2cOptions {
     setupPropsKey: 'props',
     setupContextKey: 'context',
     typescript: tsModule,
+    skipVueRouter: true,
     vueTemplateCompiler: vueTemplateCompiler,
     eslintConfigFile: '.eslintrc.js',
     plugins: getDefaultPlugins(tsModule)
