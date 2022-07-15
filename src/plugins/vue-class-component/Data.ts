@@ -17,7 +17,13 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
   const callExpr = (isRef)
     ? tsModule.createCall(
       tsModule.createIdentifier('ref'),
-      undefined,
+      (node.type)
+        ? (
+          node.type.types?.length
+            ? [tsModule.createUnionTypeNode(node.type.types)]
+            : [tsModule.createKeywordTypeNode(node.type.kind as any)]
+        )
+        : undefined,
       [removeComments(tsModule, node.initializer)]
     )
     : tsModule.createCall(

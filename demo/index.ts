@@ -68,7 +68,7 @@ export default class BasicPropertyClass extends Vue {
   /**
    * My msg
    */
-  msg = 'Vetur means "Winter" in icelandic.' //foo
+  msg: string | null = null;
 
   /**
    * My count
