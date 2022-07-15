@@ -11,7 +11,7 @@ export const convertGetter: ASTConverter<ts.GetAccessorDeclaration> = (node, opt
     kind: ASTResultKind.COMPOSITION,
     imports: [{
       named: ['computed'],
-      external: (options.compatible) ? '@vue/composition-api' : 'vue'
+      external: 'vue'
     }],
     reference: ReferenceKind.VARIABLE,
     attributes: [computedName],
@@ -41,7 +41,7 @@ export const convertSetter: ASTConverter<ts.SetAccessorDeclaration> = (node, opt
     kind: ASTResultKind.COMPOSITION,
     imports: [{
       named: ['computed'],
-      external: (options.compatible) ? '@vue/composition-api' : 'vue'
+      external: 'vue'
     }],
     reference: ReferenceKind.VARIABLE,
     attributes: [computedName],
@@ -112,7 +112,7 @@ export const mergeComputed: ASTTransform = (astResults, options) => {
       kind: ASTResultKind.COMPOSITION,
       imports: [{
         named: ['computed'],
-        external: (options.compatible) ? '@vue/composition-api' : 'vue'
+        external: 'vue'
       }],
       reference: ReferenceKind.VARIABLE_VALUE,
       attributes: [getterName],

@@ -1,7 +1,7 @@
 import type ts from 'typescript'
 import { Vc2cOptions } from '../options'
 import { ASTConvertPlugins, ASTResult, ASTConverter, ASTResultKind } from './types'
-import { copySyntheticComments, addTodoComment, convertNodeToASTResult, IImportClause, importsFind, importsAdd, importsIncludes, importsMapToArray } from '../utils'
+import { copySyntheticComments, addTodoComment, convertNodeToASTResult, IImportClause, importsFind, importsAdd, importsMapToArray } from '../utils'
 import { log } from '../debug'
 import { convertObjName } from './vue-class-component/object/ComponentName'
 import { convertObjProps } from './vue-class-component/object/Prop'
@@ -194,7 +194,6 @@ export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], opt
 }
 
 export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], options: Vc2cOptions): ts.ImportDeclaration[] {
-
   const tsModule = options.typescript
   for (const result of astResults) {
     for (const importInfo of result.imports) {
@@ -208,13 +207,6 @@ export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], opti
       }
       importsAdd(key, temp)
     }
-  }
-
-  if (options.compatible && importsIncludes('@vue/composition-api')) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const temp = importsFind('@vue/composition-api')!
-    temp.named.add('defineComponent')
-    importsAdd('@vue/composition-api', temp)
   }
 
   return importsMapToArray().map((el) => {
@@ -249,22 +241,10 @@ export function runPlugins (
   log('Make setup function')
   const setupFn = convertASTResultToSetupFn(results, options)
   log('Make default export object')
-  const exportDefaultExpr = (options.compatible)
-    ? tsModule.createCall(
-      tsModule.createIdentifier('defineComponent'),
-      undefined,
-      [tsModule.createObjectLiteral(
-        [
-          ...results
-            .filter((el) => el.kind === ASTResultKind.OBJECT)
-            .map((el) => el.nodes)
-            .reduce((array, el) => array.concat(el), []) as ts.PropertyAssignment[],
-          setupFn
-        ],
-        true
-      )]
-    )
-    : tsModule.createObjectLiteral(
+  const exportDefaultExpr = tsModule.createCall(
+    tsModule.createIdentifier('defineComponent'),
+    undefined,
+    [tsModule.createObjectLiteral(
       [
         ...results
           .filter((el) => el.kind === ASTResultKind.OBJECT)
@@ -273,7 +253,8 @@ export function runPlugins (
         setupFn
       ],
       true
-    )
+    )]
+  )
 
   const exportAssignment = copySyntheticComments(
     tsModule,

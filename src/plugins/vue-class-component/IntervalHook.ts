@@ -47,7 +47,7 @@ export const convertIntervalHook: ASTConverter<ts.MethodDeclaration> = (node, op
       attributes: (needNamedImports.length > 0) ? needNamedImports : [],
       imports: [{
         named: needNamedImports,
-        external: (options.compatible) ? '@vue/composition-api' : 'vue'
+        external: 'vue'
       }],
       reference: ReferenceKind.NONE,
       nodes

@@ -35,7 +35,7 @@ export const convertInject: ASTConverter<ts.PropertyDeclaration> = (node, option
       kind: ASTResultKind.COMPOSITION,
       imports: [{
         named: ['inject'],
-        external: (options.compatible) ? '@vue/composition-api' : 'vue'
+        external: 'vue'
       }],
       reference: ReferenceKind.VARIABLE,
       attributes: [node.name.getText()],

@@ -18,7 +18,7 @@ export const convertDomRef: ASTConverter<ts.PropertyDeclaration> = (node, option
       kind: ASTResultKind.COMPOSITION,
       imports: [{
         named: ['ref'],
-        external: (options.compatible) ? '@vue/composition-api' : 'vue'
+        external: 'vue'
       }],
       reference: ReferenceKind.VARIABLE_NON_NULL_VALUE,
       attributes: [refName],

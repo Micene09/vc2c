@@ -36,7 +36,7 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
         kind: ASTResultKind.COMPOSITION,
         imports: [{
           named: ['watch'],
-          external: (options.compatible) ? '@vue/composition-api' : 'vue'
+          external: 'vue'
         }],
         reference: ReferenceKind.VARIABLE,
         attributes: [keyName],

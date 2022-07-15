@@ -6,7 +6,6 @@ import * as vueTemplateCompiler from 'vue-template-compiler'
 export interface Vc2cOptions {
   root: string
   debug: boolean
-  compatible: boolean
   setupPropsKey: string
   setupContextKey: string
   typescript: typeof ts
@@ -22,7 +21,6 @@ export function getDefaultVc2cOptions (tsModule: typeof ts = ts): Vc2cOptions {
   return {
     root: 'process' in globalThis ? process.cwd() : '',
     debug: false,
-    compatible: false,
     setupPropsKey: 'props',
     setupContextKey: 'context',
     typescript: tsModule,

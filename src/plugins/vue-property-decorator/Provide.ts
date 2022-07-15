@@ -19,7 +19,7 @@ export const convertProvide: ASTConverter<ts.PropertyDeclaration> = (node, optio
       kind: ASTResultKind.COMPOSITION,
       imports: [{
         named: ['provide'],
-        external: (options.compatible) ? '@vue/composition-api' : 'vue'
+        external: 'vue'
       }],
       reference: ReferenceKind.NONE,
       attributes: [],

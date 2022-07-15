@@ -39,7 +39,7 @@ export const convertObjData: ASTConverter<ts.MethodDeclaration> = (node, options
       kind: ASTResultKind.COMPOSITION,
       imports: [{
         named: ['reactive', 'toRefs'],
-        external: (options.compatible) ? '@vue/composition-api' : 'vue'
+        external: 'vue'
       }],
       reference: ReferenceKind.VARIABLE_VALUE,
       attributes: attrutibes,
