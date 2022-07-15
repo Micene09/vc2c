@@ -61,6 +61,25 @@ export function isInternalHook (methodName: string): boolean {
   return $internalHooks.includes(methodName)
 }
 
+export function getInternalHookNewName (methodName: string): string {
+  const $oldToNew: Record<string, string> = {
+    'beforeCreate': 'beforeCreate',
+    'created': 'created',
+    'beforeMount': 'beforeMount',
+    'mounted': 'mounted',
+    'beforeDestroy': 'beforeUnmount',
+    'destroyed': 'unmounted',
+    'beforeUpdate': 'beforeUpdate',
+    'updated': 'updated',
+    'activated': 'activated',
+    'deactivated': 'deactivated',
+    'render': 'render',
+    'errorCaptured': 'errorCaptured',
+    'serverPrefetch': 'serverPrefetch'
+  }
+  return $oldToNew[methodName];
+}
+
 export function isPrimitiveType (tsModule: typeof ts, returnType: ts.Type): boolean {
   return !!(returnType.flags & tsModule.TypeFlags.NumberLike) ||
     !!(returnType.flags & tsModule.TypeFlags.StringLike) ||
