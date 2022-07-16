@@ -4,11 +4,15 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import "path-browserify";
 
 export default defineConfig({
-	root: resolve(__dirname, "demo"),
+	server: {
+		host: "localhost",
+		open: true
+	},
+	root: resolve(__dirname, "debug"),
 	build: {
 		rollupOptions: {
 			input: {
-				main: resolve(__dirname, "demo/index.html"),
+				main: resolve(__dirname, "debug/index.html"),
 			}
 		}
 	},
