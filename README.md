@@ -116,20 +116,37 @@ const results = convertGlob(options);
   root?: string
   // show debug message. default: `false`
   debug?: boolean,
-  // if true, use @vue/composition-api. default: `false`
-  compatible?: boolean
   // first setup function parameter name. default: `props`
   setupPropsKey?: string
   // second setup function parameter name. default: `context`
   setupContextKey?: string
   // Use custom version typescript. default: Typescript 3.7.3
-  typesciprt?: typeof ts
+  typescript?: typeof ts
   // Use custom version vue-template-compiler, please match your project vue versions. default: vue-template-compiler 2.6.11
   vueTemplateCompiler?: typeof vueTemplateCompiler
+  // A map to convert plugins references like "this.$t('label')" to a composable like "useLang().$t('label')"
+  instancePluginConverter?: typeof InstancePluginConverter
   // Use custom eslint file path. if file not exists, use default vc2c eslint config.  default: `.eslintrc.js`
   eslintConfigFile?: string
   // Use custom ASTConvertPlugins for ASTConvert and ASTTransform
   plugins?: ASTConvertPlugins
+}
+```
+
+#### `InstancePluginConverter`
+```typescript
+{
+  importsFrom: string // The library to imports to obtain the composable
+  composable: string // The named import, the composable itself
+}
+```
+example configuration:
+```typescript
+const ipc: InstancePluginConverter = {
+  $router: { importsFrom: '@vue2-helpers', composable: 'useRouter' },
+  $route: { importsFrom: '@vue2-helpers', composable: 'useRoute' },
+  $translate: { importsFrom: 'my-plugin', composable: 'useTranslations' },
+  $canAccess: { importsFrom: 'my-plugin', composable: 'useSecurity' }
 }
 ```
 

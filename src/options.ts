@@ -10,12 +10,13 @@ export interface Vc2cOptions {
   setupContextKey: string
   typescript: typeof ts
   vueTemplateCompiler: typeof vueTemplateCompiler
-  skipVueRouter: boolean
+  instancePluginConverter: InstancePluginConverter
   eslintConfigFile: string
   plugins: ASTConvertPlugins
 }
 
 export type InputVc2cOptions = Partial<Vc2cOptions>
+export type InstancePluginConverter = Record<string, { importsFrom: string, composable: string }>
 
 export function getDefaultVc2cOptions (tsModule: typeof ts = ts): Vc2cOptions {
   return {
@@ -24,8 +25,8 @@ export function getDefaultVc2cOptions (tsModule: typeof ts = ts): Vc2cOptions {
     setupPropsKey: 'props',
     setupContextKey: 'context',
     typescript: tsModule,
-    skipVueRouter: true,
     vueTemplateCompiler: vueTemplateCompiler,
+    instancePluginConverter: {},
     eslintConfigFile: '.eslintrc.js',
     plugins: getDefaultPlugins(tsModule)
   }

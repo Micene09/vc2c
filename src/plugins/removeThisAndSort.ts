@@ -13,7 +13,9 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
   const domeRefVariables = getReferences(ReferenceKind.VARIABLE_NON_NULL_VALUE)
   const propVariables = getReferences(ReferenceKind.PROPS)
   const variables = getReferences(ReferenceKind.VARIABLE)
-  const vueRouterProperties = ['$router', '$route']
+
+  const pluginConverter = options.instancePluginConverter
+  const composableMethods = Object.keys(pluginConverter)
 
   const convertContextKey = (key: string) => {
     const contextKey = new Map([
@@ -59,15 +61,15 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
             } else if (variables.includes(propertyName)) {
               dependents.push(propertyName)
               return tsModule.createIdentifier(propertyName)
-            } else if (options.skipVueRouter === false && vueRouterProperties.includes(propertyName)) {
-              const vueRouterMethod = propertyName === '$router' ? 'useRouter' : 'useRoute'
-              importsAdd('vue-router', {
-                named: new Set([vueRouterMethod])
+            } else if (composableMethods.includes(propertyName)) {
+              const pluginConvertion = pluginConverter[propertyName]
+              importsAdd(pluginConvertion.importsFrom, {
+                named: new Set([pluginConvertion.composable])
               })
               return copySyntheticComments(
                 tsModule,
                 tsModule.createCall(
-                  tsModule.createIdentifier(vueRouterMethod),
+                  tsModule.createIdentifier(pluginConvertion.composable),
                   undefined,
                   []
                 ),
@@ -85,13 +87,10 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
               return addTodoComment(
                 tsModule,
                 tsModule.createPropertyAccess(
-                  tsModule.createPropertyAccess(
-                    tsModule.createIdentifier(options.setupContextKey),
-                    tsModule.createIdentifier('root')
-                  ),
+                  tsModule.createThis(),
                   tsModule.createIdentifier(propertyName)
                 ),
-                'Check this convert result, it can work well in 80% case.',
+                'Check convertion',
                 true
               )
             }
