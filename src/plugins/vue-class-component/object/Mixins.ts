@@ -16,7 +16,7 @@ export const convertMixins: ASTConverter<ts.HeritageClause> = (node, options) =>
     .replace("Mixins(", "").replace(")", "")
     .split(",").map(arg => arg.trim())
 
-  const mixinArguments = mixinArgumentsFound.filter(mixin => options.ignoreMixins.includes(mixin));
+  const mixinArguments = mixinArgumentsFound.filter(mixin => !options.ignoreMixins.includes(mixin));
   if (!mixinArguments.length) return false;
 
   const mixinsNodes = [
