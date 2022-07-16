@@ -209,6 +209,11 @@ export function convertASTResultToImport (astResults: ASTResult<ts.Node>[], opti
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const temp = importsFind('vue')!
+  temp.named.add('defineComponent')
+  importsAdd('vue', temp)
+
   return importsMapToArray().map((el) => {
     const [key, clause] = el
     return tsModule.createImportDeclaration(
