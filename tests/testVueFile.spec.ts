@@ -1,6 +1,7 @@
 import { convertFile } from '../src'
 import path from 'path'
 import { FileKind } from '../src/file'
+import { describe, it, expect } from "vitest"
 
 describe('testVueFile', () => {
   const filePath = 'fixture/Input.vue'

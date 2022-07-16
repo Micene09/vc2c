@@ -1,4 +1,5 @@
 import { convert } from '../../src'
+import { describe, it, expect } from "vitest"
 
 describe('test convertRender', () => {
   it('convert class component render function', () => {

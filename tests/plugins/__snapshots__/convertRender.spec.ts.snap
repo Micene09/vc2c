@@ -1,4 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`test convertRender > convert class component render function 1`] = `Promise {}`;
 
 exports[`test convertRender convert class component render function 1`] = `
 "export default {

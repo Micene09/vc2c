@@ -1,4 +1,8 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
+
+exports[`testVueFile > compatible 1`] = `Promise {}`;
+
+exports[`testVueFile > no compatible 1`] = `Promise {}`;
 
 exports[`testVueFile compatible 1`] = `
 "import {
