@@ -11,6 +11,7 @@ export interface Vc2cOptions {
   typescript: typeof ts
   vueTemplateCompiler: typeof vueTemplateCompiler
   instancePluginConverter: InstancePluginConverter
+  ignoreMixins: "*" | string[]
   eslintConfigFile: string
   plugins: ASTConvertPlugins
 }
@@ -27,6 +28,7 @@ export function getDefaultVc2cOptions (tsModule: typeof ts = ts): Vc2cOptions {
     typescript: tsModule,
     vueTemplateCompiler: vueTemplateCompiler,
     instancePluginConverter: {},
+    ignoreMixins: [],
     eslintConfigFile: '.eslintrc.js',
     plugins: getDefaultPlugins(tsModule)
   }

@@ -9,9 +9,15 @@ export const convertMixins: ASTConverter<ts.HeritageClause> = (node, options) =>
   if (!mixinExpression.startsWith("Mixins"))
     return false
 
-  const mixinArguments = mixinExpression
+  if (options.ignoreMixins === "*")
+    return false;
+
+  const mixinArgumentsFound = mixinExpression
     .replace("Mixins(", "").replace(")", "")
     .split(",").map(arg => arg.trim())
+
+  const mixinArguments = mixinArgumentsFound.filter(mixin => options.ignoreMixins.includes(mixin));
+  if (!mixinArguments.length) return false;
 
   const mixinsNodes = [
     tsModule.createPropertyAssignment(

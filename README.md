@@ -126,6 +126,8 @@ const results = convertGlob(options);
   vueTemplateCompiler?: typeof vueTemplateCompiler
   // A map to convert plugins references like "this.$t('label')" to a composable like "useLang().$t('label')"
   instancePluginConverter?: typeof InstancePluginConverter
+  // If the value is "*", every mixin will be ignored, otherwise just type an array of Mixins to ignore (ex: ["Mixin1", "Mixin2"])
+  ignoreMixins?: "*" | string[]
   // Use custom eslint file path. if file not exists, use default vc2c eslint config.  default: `.eslintrc.js`
   eslintConfigFile?: string
   // Use custom ASTConvertPlugins for ASTConvert and ASTTransform
