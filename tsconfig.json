@@ -14,12 +14,17 @@
     "strict": true,
     "moduleResolution": "node",
     "types": [
-      "node",
-      "jest"
+      "node"
     ],
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
+  },
+  "paths": {
+    "@/*": [ "src/*" ]
   },
   "exclude": [
     "dist",

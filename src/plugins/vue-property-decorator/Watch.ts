@@ -37,8 +37,8 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
         watchHandler
       ]
       if (decoratorArguments[1] && tsModule.isObjectLiteralExpression(decoratorArguments[1])) {
-        const watchOptions: ts.PropertyAssignment[] = []
-        decoratorArguments[1].properties.forEach((el) => {
+        const watchOptions: ts.PropertyAssignment[] = [];
+        (decoratorArguments[1] as any).properties.forEach((el) => {
           if (!tsModule.isPropertyAssignment(el)) return
           watchOptions.push(el)
         })

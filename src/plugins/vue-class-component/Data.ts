@@ -19,8 +19,8 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
       tsModule.createIdentifier('ref'),
       (node.type)
         ? (
-          node.type.types?.length
-            ? [tsModule.createUnionTypeNode(node.type.types)]
+          (node.type as any).types?.length
+            ? [tsModule.createUnionTypeNode((node.type as any).types)]
             : [tsModule.createKeywordTypeNode(node.type.kind as any)]
         )
         : undefined,
