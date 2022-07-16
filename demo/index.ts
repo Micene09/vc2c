@@ -87,6 +87,9 @@ monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   noResolve: true,
   target: ScriptTarget.ESNext,
   allowNonTsExtensions: true,
+  noSemanticValidation: true,
+  noSyntaxValidation: true,
+  noImplicitAny: false,
   noEmit: true,
   lib: [
     'esnext',
@@ -96,7 +99,7 @@ monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
   ],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   module: 'esnext' as any,
-  strict: true,
+  strict: false,
   esModuleInterop: true,
   resolveJsonModule: true
 })
