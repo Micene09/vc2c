@@ -12,10 +12,9 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
   if (decorator) {
     const tsModule = options.typescript
     const decoratorArguments = (decorator.expression as ts.CallExpression).arguments
-    if (decoratorArguments.length > 1) {
+    if (decoratorArguments.length > 0) {
       const keyName = (decoratorArguments[0] as ts.StringLiteral).text
-      const watchArguments = decoratorArguments[1]
-      const method = tsModule.createArrowFunction(
+      const watchHandler = tsModule.createArrowFunction(
         node.modifiers,
         node.typeParameters,
         node.parameters,
@@ -23,12 +22,27 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
         tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
         node.body ?? tsModule.createBlock([], false)
       )
-      const watchOptions: ts.PropertyAssignment[] = []
-      if (tsModule.isObjectLiteralExpression(watchArguments)) {
-        watchArguments.properties.forEach((el) => {
+      const watchComposableArgs: any[] = [
+        tsModule.createArrowFunction(
+          undefined,
+          undefined,
+          [],
+          undefined,
+          tsModule.createToken(tsModule.SyntaxKind.EqualsGreaterThanToken),
+          tsModule.createPropertyAccess(
+            tsModule.createThis(),
+            createIdentifier(tsModule, keyName)
+          )
+        ),
+        watchHandler
+      ]
+      if (decoratorArguments[1] && tsModule.isObjectLiteralExpression(decoratorArguments[1])) {
+        const watchOptions: ts.PropertyAssignment[] = []
+        decoratorArguments[1].properties.forEach((el) => {
           if (!tsModule.isPropertyAssignment(el)) return
           watchOptions.push(el)
         })
+        watchComposableArgs.push(tsModule.createObjectLiteral(watchOptions))
       }
 
       return {
@@ -38,8 +52,8 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
           named: ['watch'],
           external: 'vue'
         }],
-        reference: ReferenceKind.VARIABLE,
-        attributes: [keyName],
+        reference: ReferenceKind.NONE,
+        attributes: [],
         nodes: [
           tsModule.createExpressionStatement(
             copySyntheticComments(
@@ -47,14 +61,7 @@ export const convertWatch: ASTConverter<ts.MethodDeclaration> = (node, options) 
               tsModule.createCall(
                 tsModule.createIdentifier('watch'),
                 undefined,
-                [
-                  tsModule.createPropertyAccess(
-                    tsModule.createThis(),
-                    createIdentifier(tsModule, keyName)
-                  ),
-                  method,
-                  tsModule.createObjectLiteral(watchOptions)
-                ]
+                watchComposableArgs
               ),
               node
             )
