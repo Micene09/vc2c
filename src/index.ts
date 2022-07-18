@@ -51,11 +51,10 @@ export function convertGlob (options: IGlobConvertOptions) {
   import("fast-glob").then((fg) => {
     import("fs").then((fs) => {
       const files = fg.sync(options.globSelector)
-      console.log(files)
-      return files.map(filePath => {
+      return files.map(async filePath => {
         const encoding = "utf-8"
         const content = fs.readFileSync(filePath, { encoding })
-        const result = convert(content, options)
+        const result = await convert(content, options)
         fs.writeFileSync(filePath, result, { encoding })
     
         return { filePath, result, success: Boolean(result) }
