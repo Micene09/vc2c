@@ -1,11 +1,5 @@
-import Vue from 'vue'
-import { Prop, Component, Ref, Model, Provide, Inject } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 
-const symbol = Symbol('baz')
-
-/**
- * My basic tag
- */
 @Component({
   name: 'oao',
   props: ['bar', 'qaq', 'cac'],
@@ -20,12 +14,14 @@ export default class BasicPropertyClass extends Vue {
   theString = "ciao"
   willHaveAValue: null | string = null
   obj: IBigObject | null = null
-  @Watch("theString") onStringChange () {
-    console.log(this.theString)
-  }
+  obj2: { test: number } = { test: 1 }
+  obj3: Partial<{ test: number }> = {}
   mounted() {
     this.$translate("label_ciao")
     this.$isSmall()
     this.$router.push()
+  }
+  @Watch("theString") onStringChange () {
+    console.log(this.theString)
   }
 }
