@@ -10,7 +10,6 @@ exports[`test convertRender convert class component render function 1`] = `
     return this.$slots.default
   },
   setup(props, context) {
-    // TODO: Please remove unused return variable
     return {}
   }
 }

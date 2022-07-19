@@ -80,7 +80,6 @@ export default defineComponent({
       console.log(msg.value)
     }
 
-    // TODO: Please remove unused return variable
     return {
       count,
       a,
@@ -165,7 +164,6 @@ export default {
       console.log(msg.value)
     }
 
-    // TODO: Please remove unused return variable
     return {
       count,
       a,

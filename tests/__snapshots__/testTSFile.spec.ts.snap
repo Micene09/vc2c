@@ -101,7 +101,6 @@ export default defineComponent({
     }
 
     removeItem()
-    // TODO: Please remove unused return variable
     return {
       count,
       a,
@@ -221,7 +220,6 @@ export default defineComponent({
     }
 
     removeItem()
-    // TODO: Please remove unused return variable
     return {
       count,
       a,
@@ -332,7 +330,6 @@ export default {
     }
 
     removeItem()
-    // TODO: Please remove unused return variable
     return {
       count,
       a,

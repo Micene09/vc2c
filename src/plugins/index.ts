@@ -135,21 +135,16 @@ export function getASTResults (
 export function convertASTResultToSetupFn (astResults: ASTResult<ts.Node>[], options: Vc2cOptions): ts.MethodDeclaration {
   const tsModule = options.typescript
 
-  const returnStatement = addTodoComment(
-    tsModule,
-    tsModule.createReturn(
-      tsModule.createObjectLiteral([
-        ...astResults
-          .filter((el) => el.kind === ASTResultKind.COMPOSITION)
-          .reduce((array, el) => array.concat(el.attributes), [] as string[])
-          .map((el) => tsModule.createShorthandPropertyAssignment(
-            tsModule.createIdentifier(el),
-            undefined
-          ))
-      ])
-    ),
-    'Please remove unused return variable',
-    false
+  const returnStatement = tsModule.createReturn(
+    tsModule.createObjectLiteral([
+      ...astResults
+        .filter((el) => el.kind === ASTResultKind.COMPOSITION)
+        .reduce((array, el) => array.concat(el.attributes), [] as string[])
+        .map((el) => tsModule.createShorthandPropertyAssignment(
+          tsModule.createIdentifier(el),
+          undefined
+        ))
+    ])
   )
 
   return tsModule.createMethod(
