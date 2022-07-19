@@ -9,7 +9,9 @@
   "license": "MIT",
   "main": "dist/lib/index.js",
   "typings": "dist/types/index.d.ts",
-  "bin": "./bin/vc2c",
+  "bin": {
+    "vc2c": "./bin/vc2c"
+  },
   "engines": {
     "node": ">=10.18"
   },
@@ -58,6 +60,5 @@
     "vitest": "^0.18.0",
     "vue": "^2.6.11",
     "vue-property-decorator": "^9.1.2"
-  },
-  "packageManager": "yarn@3.2.1"
+  }
 }
