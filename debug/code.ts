@@ -19,7 +19,7 @@ const symbol = Symbol('baz')
 export default class BasicPropertyClass extends Vue {
   theString = "ciao"
   willHaveAValue: null | string = null
-  obj: IBigObject = {}
+  obj: IBigObject | null = null
   @Watch("theString") onStringChange () {
     console.log(this.theString)
   }

@@ -54,7 +54,9 @@ export default function (code: string, options: Partial<Vc2cOptions>) {
 	})
 	
 	const setOutput = () => {
-	  output.setValue(convert(editor.getValue(), options))
+		try {
+			output.setValue(convert(editor.getValue(), options))
+		} catch (error) {}
 	}
 	editor.onDidChangeModelContent(() => {
 	  setOutput()
