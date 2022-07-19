@@ -103,6 +103,10 @@ dist
 # TernJS port file
 .tern-port
 
-# vscode
-
-demo-dist/
+# Yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
