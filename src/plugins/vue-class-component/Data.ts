@@ -1,6 +1,7 @@
 import { ASTConverter, ASTResultKind, ReferenceKind } from '../types'
 import type ts from 'typescript'
 import { isPrimitiveType, copySyntheticComments, removeComments } from '../../utils'
+import { TypeNode } from 'typescript'
 
 export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options, program) => {
   if (!node.initializer) {
@@ -10,14 +11,22 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
   const dataName = node.name.getText()
 
   const checker = program.getTypeChecker()
-  const isRef = isPrimitiveType(tsModule, checker.getTypeAtLocation(node.initializer))
+  let isRef = false
+  if (node.type) {
+    const types: TypeNode[] = (node.type as any).types ? (node.type as any).types : [node.type]
+    const primitivesFound = types.map(t => isPrimitiveType(tsModule, checker.getTypeAtLocation(t)))
+    const areAllPrimitives = primitivesFound.filter(Boolean).length === types.length
+    isRef = areAllPrimitives
+  } else {
+    isRef = isPrimitiveType(tsModule, checker.getTypeAtLocation(node.initializer))
+  }
 
-  const tag = (isRef) ? 'Data-ref' : 'Data-reactive'
-  const named = (isRef) ? ['ref'] : ['reactive']
-  const callExpr = (isRef)
+  const tag = isRef ? 'Data-ref' : 'Data-reactive'
+  const named = isRef ? ['ref'] : ['reactive']
+  const callExpr = isRef
     ? tsModule.createCall(
       tsModule.createIdentifier('ref'),
-      (node.type)
+      node.type
         ? (
           (node.type as any).types?.length
             ? [tsModule.createUnionTypeNode((node.type as any).types)]
