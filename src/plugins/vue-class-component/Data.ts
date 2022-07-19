@@ -28,7 +28,13 @@ export const convertData: ASTConverter<ts.PropertyDeclaration> = (node, options,
     )
     : tsModule.createCall(
       tsModule.createIdentifier('reactive'),
-      undefined,
+      node.type
+        ? (
+          (node.type as any).types?.length
+            ? [tsModule.createUnionTypeNode((node.type as any).types)]
+            : [tsModule.createUnionTypeNode([node.type])]
+        )
+        : undefined,
       [removeComments(tsModule, node.initializer)]
     )
 
