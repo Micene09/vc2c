@@ -1,7 +1,7 @@
 import type ts from 'typescript'
 import { Vc2cOptions } from '../options'
 import { ASTConvertPlugins, ASTResult, ASTConverter, ASTResultKind } from './types'
-import { copySyntheticComments, addTodoComment, convertNodeToASTResult, IImportClause, importsFind, importsAdd, importsMapToArray } from '../utils'
+import { copySyntheticComments, convertNodeToASTResult, IImportClause, importsFind, importsAdd, importsMapToArray } from '../utils'
 import { log } from '../debug'
 import { convertObjName } from './vue-class-component/object/ComponentName'
 import { convertObjProps } from './vue-class-component/object/Prop'
