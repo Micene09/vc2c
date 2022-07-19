@@ -1,16 +1,11 @@
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch, Prop } from 'vue-property-decorator'
 
 @Component({
-  name: 'oao',
-  props: ['bar', 'qaq', 'cac'],
-  data () {
-    const a = 'pa';
-    return {
-      a: a
-    }
-  }
+  name: 'basic-component'
 })
-export default class BasicPropertyClass extends Vue {
+export default class BasicComponent extends Vue {
+  @Prop({ type: String, default: "" }) value
+  @Prop({ type: Array, default: () => [] }) firstProp
   theString = "ciao"
   willHaveAValue: null | string = null
   obj: IBigObject | null = null
@@ -20,6 +15,7 @@ export default class BasicPropertyClass extends Vue {
     this.$translate("label_ciao")
     this.$isSmall()
     this.$router.push()
+    this.$emit("asd")
   }
   @Watch("theString") onStringChange () {
     console.log(this.theString)
