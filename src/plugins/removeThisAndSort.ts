@@ -66,6 +66,27 @@ export const removeThisAndSort: ASTTransform = (astResults, options) => {
               importsAdd(pluginConvertion.importsFrom, {
                 named: new Set([pluginConvertion.composable])
               })
+              if (pluginConvertion.isPureFunction)
+                return copySyntheticComments(
+                  tsModule,
+                  tsModule.createIdentifier(pluginConvertion.composable),
+                  node
+                );
+              if (pluginConvertion.mapToInternalFunction) {
+                return copySyntheticComments(
+                  tsModule,
+                  tsModule.createPropertyAccess(
+                    tsModule.createCall(
+                      tsModule.createIdentifier(pluginConvertion.composable),
+                      undefined,
+                      []
+                    ),
+                    tsModule.createIdentifier(pluginConvertion.mapToInternalFunction)
+                  ),
+                  node
+                )
+              }
+              
               return copySyntheticComments(
                 tsModule,
                 tsModule.createCall(

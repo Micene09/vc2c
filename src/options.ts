@@ -17,7 +17,12 @@ export interface Vc2cOptions {
 }
 
 export type InputVc2cOptions = Partial<Vc2cOptions>
-export type InstancePluginConverter = Record<string, { importsFrom: string, composable: string }>
+export type InstancePluginConverter = Record<string, {
+  composable: string
+  importsFrom: string
+  isPureFunction?: boolean
+  mapToInternalFunction?: string
+}>
 
 export function getDefaultVc2cOptions (tsModule: typeof ts = ts): Vc2cOptions {
   return {

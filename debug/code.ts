@@ -17,37 +17,15 @@ const symbol = Symbol('baz')
   }
 })
 export default class BasicPropertyClass extends Vue {
-  @Ref() readonly anotherComponent!: HTMLElement
-  @Model('change', { type: Boolean }) readonly checked!: boolean
-  /**
-   * My foo
-   */
-  @Prop({ type: Boolean, default: false }) foo: any
-
-  @Provide() foa = 'foo'
-  @Provide('bar') baz = 'bar'
-
-  @Inject() readonly foai!: string
-  @Inject('bar') readonly bari!: string
-  @Inject({ from: 'optional', default: 'default' }) readonly optional!: string
-  @Inject(symbol) readonly bazi!: string
-
-  /**
-   * My msg
-   */
-  msg: string | null = null;
-
-  /**
-   * My count
-   */
-  get count () {
-    return this.$store.state.count
+  theString = "ciao"
+  willHaveAValue: null | string = null
+  obj: IBigObject = {}
+  @Watch("theString") onStringChange () {
+    console.log(this.theString)
   }
-
-  /**
-   * My greeting
-   */
-  hello () {
-    console.log(this.msg)
+  mounted() {
+    this.$translate("label_ciao")
+    this.$isSmall()
+    this.$router.push()
   }
 }
