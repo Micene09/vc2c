@@ -1,7 +1,15 @@
 import { Vue, Component, Watch, Prop } from 'vue-property-decorator'
 
 @Component({
-  name: 'basic-component'
+  name: 'basic-component',
+  components: {
+    Comp1,
+    Comp2
+  },
+  directives: {
+    date,
+    time
+  }
 })
 export default class BasicComponent extends Vue {
   @Prop({ type: String, default: "" }) value

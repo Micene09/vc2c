@@ -139,7 +139,7 @@ export function convertNodeToASTResult<T extends ts.Node> (tsModule: typeof ts, 
     attributes: [],
     tag: 'IheritObjProperty',
     nodes: [
-      addTodoComment(tsModule, node, 'Can\'t convert this object property.', false)
+      node
     ]
   }
 }
