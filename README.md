@@ -138,17 +138,20 @@ const results = convertGlob(options);
 #### `InstancePluginConverter`
 ```typescript
 {
-  importsFrom: string // The library to imports to obtain the composable
   composable: string // The named import, the composable itself
+  importsFrom: string // The library to imports to obtain the composable
+  isPureFunction?: boolean // The way to call the composable imported
+  mapToInternalFunction?: string // Map the prop to composable's internal function
 }
 ```
 example configuration:
 ```typescript
 const ipc: InstancePluginConverter = {
+  $nextTick: { composable: "nextTick", importsFrom: "vue", isPureFunction: true },
   $router: { importsFrom: '@vue2-helpers', composable: 'useRouter' },
   $route: { importsFrom: '@vue2-helpers', composable: 'useRoute' },
-  $translate: { importsFrom: 'my-plugin', composable: 'useTranslations' },
-  $canAccess: { importsFrom: 'my-plugin', composable: 'useSecurity' }
+  $translate: { importsFrom: 'my-plugin', composable: 'useTranslations', mapToInternalFunction: "translate" },
+  $canAccess: { importsFrom: 'my-plugin', composable: 'useSecurity', mapToInternalFunction: "canAccess" }
 }
 ```
 
