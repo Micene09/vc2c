@@ -193,6 +193,7 @@ export interface ASTConvertPlugins {
   - You can use it to merge or sort AST. ex: `computed`, `removeThis`.
 
 ### Tips
+- After cloning this repo, you can use `yarn debug` to launch the testing webapp and try the conversion tool.
 - You can use https://ts-ast-viewer.com/ to get Typescript ast.
 - You can use built-in `ASTConvert` or `ASTTransform` in `ASTConvertPlugins`.
   ```typescript
